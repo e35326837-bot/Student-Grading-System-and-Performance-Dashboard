@@ -1,35 +1,33 @@
-function getRemarks(grade) {
-    if (grade >= 1.00 && grade <= 3.00) {
-        return "Passed";
-    } else if (grade >= 3.25 && grade <= 5.00) {
-        return "Failed";
-    } else {
-        return "Invalid Grade";
-    }
-}
-
 function calculateGrades() {
 
-    const name = document.getElementById("studentName").value;
-    const id = document.getElementById("studentID").value;
+    // Get student information
+    const studentName = document.getElementById("studentName").value;
+    const studentId = document.getElementById("studentId").value;
 
+    // Get grades
+    const grade1 = parseFloat(document.getElementById("grade1").value);
+    const grade2 = parseFloat(document.getElementById("grade2").value);
+    const grade3 = parseFloat(document.getElementById("grade3").value);
+    const grade4 = parseFloat(document.getElementById("grade4").value);
+
+    // Check if all grades are entered
+    if (
+        isNaN(grade1) ||
+        isNaN(grade2) ||
+        isNaN(grade3) ||
+        isNaN(grade4)
+    ) {
+        alert("Please enter all four subject grades.");
+        return;
+    }
+
+    // Store grades in an array
     const grades = [
-        parseFloat(document.getElementById("grade1").value),
-        parseFloat(document.getElementById("grade2").value),
-        parseFloat(document.getElementById("grade3").value),
-        parseFloat(document.getElementById("grade4").value)
+        grade1,
+        grade2,
+        grade3,
+        grade4
     ];
-
-    if (!name || !id || grades.some(isNaN)) {
-        alert("Please complete all student information and grades.");
-        return;
-    }
-
-    // Check if grades are within the valid range
-    if (grades.some(grade => grade < 1 || grade > 5)) {
-        alert("Please enter grades from 1.00 to 5.00.");
-        return;
-    }
 
     // Calculate GWA
     const total = grades.reduce((sum, grade) => sum + grade, 0);
@@ -39,63 +37,97 @@ function calculateGrades() {
     const highest = Math.min(...grades);
     const lowest = Math.max(...grades);
 
-    // Display student information
-    document.getElementById("displayName").textContent = name;
-    document.getElementById("displayID").textContent = id;
+    // Determine performance
+    let performance;
+    let status;
 
-    // Display summary
+    if (gwa <= 1.50) {
+        performance = "Excellent";
+        status = "PASSED";
+    } else if (gwa <= 2.00) {
+        performance = "Very Good";
+        status = "PASSED";
+    } else if (gwa <= 2.50) {
+        performance = "Good";
+        status = "PASSED";
+    } else if (gwa <= 3.00) {
+        performance = "Satisfactory";
+        status = "PASSED";
+    } else {
+        performance = "Needs Improvement";
+        status = "FAILED";
+    }
+
+    // Display dashboard results
     document.getElementById("gwa").textContent = gwa.toFixed(2);
     document.getElementById("highest").textContent = highest.toFixed(2);
     document.getElementById("lowest").textContent = lowest.toFixed(2);
+    document.getElementById("performance").textContent = performance;
 
-    // Overall status
-    const status = gwa <= 3.00 ? "PASSED" : "FAILED";
-    document.getElementById("status").textContent = status;
+    // Display student result
+    document.getElementById("studentResult").textContent =
+        "Student: " + studentName +
+        " | ID: " + studentId +
+        " | Status: " + status;
 
-    // Subject names
-    const subjects = [
-        "Developing Cloud Native Applications",
-        "Introduction to HDL",
-        "Logic Circuits and Design",
-        "Operating System"
-    ];
+    // Update subject table
+    const table = document.getElementById("resultsTable");
 
-    // Create table rows
-    const table = document.getElementById("gradeTable");
-
-    table.innerHTML = "";
-
-    for (let i = 0; i < grades.length; i++) {
-
-        const row = document.createElement("tr");
-
-        row.innerHTML = `
-            <td>${subjects[i]}</td>
-            <td>${grades[i].toFixed(2)}</td>
-            <td>${getRemarks(grades[i])}</td>
-        `;
-
-        table.appendChild(row);
-    }
+    table.innerHTML = `
+        <tr>
+            <td>Developing Cloud Native Applications</td>
+            <td>${grade1.toFixed(2)}</td>
+        </tr>
+        <tr>
+            <td>Introduction to HDL</td>
+            <td>${grade2.toFixed(2)}</td>
+        </tr>
+        <tr>
+            <td>Logic Circuits and Design</td>
+            <td>${grade3.toFixed(2)}</td>
+        </tr>
+        <tr>
+            <td>Operating System</td>
+            <td>${grade4.toFixed(2)}</td>
+        </tr>
+    `;
 }
+
 
 function clearForm() {
 
     document.getElementById("studentName").value = "";
-    document.getElementById("studentID").value = "";
+    document.getElementById("studentId").value = "";
 
     document.getElementById("grade1").value = "";
     document.getElementById("grade2").value = "";
     document.getElementById("grade3").value = "";
     document.getElementById("grade4").value = "";
 
-    document.getElementById("displayName").textContent = "---";
-    document.getElementById("displayID").textContent = "---";
+    document.getElementById("gwa").textContent = "--";
+    document.getElementById("highest").textContent = "--";
+    document.getElementById("lowest").textContent = "--";
+    document.getElementById("performance").textContent = "--";
 
-    document.getElementById("gwa").textContent = "---";
-    document.getElementById("highest").textContent = "---";
-    document.getElementById("lowest").textContent = "---";
-    document.getElementById("status").textContent = "---";
+    document.getElementById("studentResult").textContent =
+        "Enter your grades and click Calculate.";
 
-    document.getElementById("gradeTable").innerHTML = "";
+    document.getElementById("resultsTable").innerHTML = `
+        <tr>
+            <td>Developing Cloud Native Applications</td>
+            <td>--</td>
+        </tr>
+        <tr>
+            <td>Introduction to HDL</td>
+            <td>--</td>
+        </tr>
+        <tr>
+            <td>Logic Circuits and Design</td>
+            <td>--</td>
+        </tr>
+        <tr>
+            <td>Operating System</td>
+            <td>--</td>
+        </tr>
+    `;
 }

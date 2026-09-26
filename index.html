@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>College Grading System</title>
+    <title>Student Grade Calculator and Performance Dashboard</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -11,94 +12,126 @@
 
     <div class="container">
 
-        <h1>College Grading System</h1>
-        <p class="subtitle">Student Grade Management Dashboard</p>
+        <header>
+            <h1>Student Grade Calculator</h1>
+            <p>Performance Dashboard</p>
+        </header>
 
-        <div class="student-info">
-            <label>Student Name</label>
+        <!-- Student Information -->
+        <section class="card">
+            <h2>Student Information</h2>
+
+            <label for="studentName">Student Name</label>
             <input type="text" id="studentName" placeholder="Enter student name">
 
-            <label>Student ID</label>
-            <input type="text" id="studentID" placeholder="Enter student ID">
-        </div>
+            <label for="studentId">Student ID</label>
+            <input type="text" id="studentId" placeholder="Enter student ID">
+        </section>
 
-        <h2>Subject Grades</h2>
+        <!-- Grade Calculator -->
+        <section class="card">
+            <h2>College Subject Grades</h2>
 
-        <div class="subjects">
+            <label for="grade1">
+                Developing Cloud Native Applications
+            </label>
+            <input type="number" id="grade1" step="0.25" min="1" max="5"
+                   placeholder="Enter grade">
 
-            <div class="subject">
-                <label>Developing Cloud Native Applications</label>
-                <input type="number" id="grade1" step="0.25" min="1" max="5"
-                    placeholder="e.g. 1.50">
+            <label for="grade2">
+                Introduction to HDL
+            </label>
+            <input type="number" id="grade2" step="0.25" min="1" max="5"
+                   placeholder="Enter grade">
+
+            <label for="grade3">
+                Logic Circuits and Design
+            </label>
+            <input type="number" id="grade3" step="0.25" min="1" max="5"
+                   placeholder="Enter grade">
+
+            <label for="grade4">
+                Operating System
+            </label>
+            <input type="number" id="grade4" step="0.25" min="1" max="5"
+                   placeholder="Enter grade">
+
+            <div class="buttons">
+                <button onclick="calculateGrades()">Calculate</button>
+                <button onclick="clearForm()" class="clear-btn">Clear</button>
             </div>
+        </section>
 
-            <div class="subject">
-                <label>Introduction to HDL</label>
-                <input type="number" id="grade2" step="0.25" min="1" max="5"
-                    placeholder="e.g. 2.00">
-            </div>
+        <!-- Performance Dashboard -->
+        <section class="dashboard">
 
-            <div class="subject">
-                <label>Logic Circuits and Design</label>
-                <input type="number" id="grade3" step="0.25" min="1" max="5"
-                    placeholder="e.g. 1.75">
-            </div>
+            <h2>Performance Dashboard</h2>
 
-            <div class="subject">
-                <label>Operating System</label>
-                <input type="number" id="grade4" step="0.25" min="1" max="5"
-                    placeholder="e.g. 2.25">
-            </div>
+            <div class="dashboard-grid">
 
-        </div>
-
-        <div class="buttons">
-            <button onclick="calculateGrades()">Calculate GWA</button>
-            <button class="clear" onclick="clearForm()">Clear</button>
-        </div>
-
-        <div id="result" class="result">
-            <h2>Grade Summary</h2>
-
-            <p><strong>Student:</strong> <span id="displayName">---</span></p>
-            <p><strong>Student ID:</strong> <span id="displayID">---</span></p>
-
-            <div class="summary">
-                <div>
+                <div class="dashboard-card">
                     <h3>GWA</h3>
-                    <span id="gwa">---</span>
+                    <p id="gwa">--</p>
                 </div>
 
-                <div>
+                <div class="dashboard-card">
                     <h3>Highest Grade</h3>
-                    <span id="highest">---</span>
+                    <p id="highest">--</p>
                 </div>
 
-                <div>
+                <div class="dashboard-card">
                     <h3>Lowest Grade</h3>
-                    <span id="lowest">---</span>
+                    <p id="lowest">--</p>
                 </div>
 
-                <div>
-                    <h3>Status</h3>
-                    <span id="status">---</span>
+                <div class="dashboard-card">
+                    <h3>Performance</h3>
+                    <p id="performance">--</p>
                 </div>
+
             </div>
+
+            <div class="result-box">
+                <h3>Student Result</h3>
+                <p id="studentResult">
+                    Enter your grades and click Calculate.
+                </p>
+            </div>
+
+        </section>
+
+        <!-- Subject Results -->
+        <section class="card">
+            <h2>Subject Performance</h2>
 
             <table>
                 <thead>
                     <tr>
                         <th>Subject</th>
                         <th>Grade</th>
-                        <th>Remarks</th>
                     </tr>
                 </thead>
 
-                <tbody id="gradeTable">
+                <tbody id="resultsTable">
+                    <tr>
+                        <td>Developing Cloud Native Applications</td>
+                        <td>--</td>
+                    </tr>
+                    <tr>
+                        <td>Introduction to HDL</td>
+                        <td>--</td>
+                    </tr>
+                    <tr>
+                        <td>Logic Circuits and Design</td>
+                        <td>--</td>
+                    </tr>
+                    <tr>
+                        <td>Operating System</td>
+                        <td>--</td>
+                    </tr>
                 </tbody>
             </table>
-
-        </div>
+        </section>
 
     </div>
 
